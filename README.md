@@ -13,19 +13,15 @@ A lightweight JavaScript library for handling file operations with ease. FileBud
 - 🎯 Support for both single and multiple file inputs
 
 ## Installation
-
-Simply include the FileBud class in your project:
-
-```javascript
-// Copy the FileBud class code into your project
-class FileBud { ... }
-```
-
-Or more simple, adding the jsDeliver link in the script tag on HTML
+Add the CDN link of the library in the script tag on HTML
 ```html
-<script src="https://cdn.jsdelivr.net/gh/mainbytes/FileBud.js/"></script>
+<script src="https://cdn.jsdelivr.net/gh/mainbytes/FileBud.js/filebud.min.js"></script>
 ```
 
+Or if it should be functional offline, download or copy-paste the script and link it
+ ```html
+<script src="./assets/js/filebud.min.js"></script>
+```
 ## Quick Start
 
 ```javascript
