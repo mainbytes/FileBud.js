@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FileBud Test</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; }
+  input, button { margin: 5px 0; }
+  .file-info { border: 1px solid #ccc; padding: 10px; margin: 5px 0; }
+  pre { background: #f7f7f7; padding: 10px; overflow-x: auto; }
+</style>
+</head>
+<body>
+
+<h1>FileBud Test</h1>
+
+<h3>Single File Input</h3>
+<input type="file" id="fileInput"><br>
+<button onclick="testSingle()">Test Single File</button>
+
+<h3>Multiple Files Input</h3>
+<input type="file" id="multiInput" multiple><br>
+<button onclick="testMultiple()">Test Multiple Files</button>
+
+<h3>Fetch from URL</h3>
+<input type="text" id="urlInput" placeholder="Enter file URL"><br>
+<button onclick="fetchSingle()">Fetch Single URL</button>
+
+<h3>Fetch Multiple URLs (comma-separated)</h3>
+<input type="text" id="urlsInput" placeholder="Enter URLs separated by comma"><br>
+<button onclick="fetchMultiple()">Fetch Multiple URLs</button>
+
+<h3>Output</h3>
+<div id="output"></div>
+
+<script src="filebud.js"></script>
+<script>
+const fb = new FileBud();
+const out = document.getElementById('output');
+
+function logFile(fileWrapper) {
+    const div = document.createElement('div');
+    div.className = 'file-info';
+    div.innerHTML = `
+        <strong>Name:</strong> ${fileWrapper.name}<br>
+        <strong>Type:</strong> ${fileWrapper.type}<br>
+        <strong>Size:</strong> ${fileWrapper.displaySize()}<br>
+        <strong>IsType("png"):</strong> ${fileWrapper.isType("png")}<br>
+        <button onclick="downloadFile()">Download</button>
+        <pre id="readOutput"></pre>
+    `;
+    div.querySelector('button').onclick = () => fileWrapper.download();
+    out.appendChild(div);
+
+    // Test read
+    fileWrapper.read('text').then(result => {
+        div.querySelector('pre').textContent = 'read(text):\n' + result;
+    }).catch(err => {
+        div.querySelector('pre').textContent = 'read(text) error:\n' + err;
+    });
+}
+
+async function testSingle() {
+    out.innerHTML = '';
+    try {
+        const f = await fb.getFileInput('#fileInput');
+        logFile(f);
+    } catch (err) {
+        out.textContent = err;
+    }
+}
+
+async function testMultiple() {
+    out.innerHTML = '';
+    try {
+        const files = await fb.getFilesInput('#multiInput');
+        files.forEach(logFile);
+    } catch (err) {
+        out.textContent = err;
+    }
+}
+
+async function fetchSingle() {
+    out.innerHTML = '';
+    const url = document.getElementById('urlInput').value;
+    const f = await fb.getFileInputFromURL(url);
+    if (f) logFile(f);
+}
+
+async function fetchMultiple() {
+    out.innerHTML = '';
+    const urls = document.getElementById('urlsInput').value.split(',').map(u => u.trim());
+    const files = await fb.getFilesInputFromURL(urls);
+    files.forEach(logFile);
+}
+</script>
+
+</body>
+</html>
