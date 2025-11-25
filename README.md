@@ -15,7 +15,7 @@ A lightweight JavaScript library for handling file operations with ease. FileBud
 ## Installation
 Add the CDN link of the library in the script tag on HTML
 ```html
-<script src="https://cdn.jsdelivr.net/gh/mainbytes/FileBud.js/filebud.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/mikaelv33/FileBud.js/filebud.min.js"></script>
 ```
 
 Or if it should be functional offline, download or copy-paste the script and link it
@@ -279,5 +279,6 @@ FileBud works in all modern browsers that support:
 MIT License - see LICENSE file for details.
 
 ---
+
 
 FileBud makes file handling in the browser simple and intuitive. Whether you're working with local files, remote URLs, or creating downloads, FileBud has you covered with a clean, promise-based API.
